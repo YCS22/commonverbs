@@ -7,20 +7,23 @@ import { lang } from "./enums/lang";
 import { shuffleArray } from "./helpers/shuffleArray";
 import ListSection from "./components/listSection";
 import { InfoSection } from "./components/infoSection";
+import TotalCounter from "./components/totalCounter";
 
 const App = () => {
   const [currentLang, setCurrentLang] = useState(lang.tr);
   const [randomItems, setRandomItems] = useState<any[]>([]);
   const [shuffledItems, setShuffledItems] = useState<any[]>([]);
   const [answerStatus, setAnswerStatus] = useState<boolean>(true);
+  const [currentList, setCurrentList] = useState<any[]>(list);
   const [score, setScore] = useState(0);
+  const [knownQuestion, setKnownQuestion] = useState(0);
 
   useEffect(() => {
     getItems();
   }, []);
 
   const getItems = () => {
-    const shuffledList = shuffleArray(list);
+    const shuffledList = shuffleArray(currentList);
 
     const items = selectRandomItems(shuffledList, 5);
     setRandomItems(items);
@@ -38,6 +41,9 @@ const App = () => {
     if (callback === randomItems[0]) {
       setAnswerStatus(true);
       setScore((prevScore) => prevScore + 1);
+      const newList = currentList.filter((item) => item !== randomItems[0]);
+      setCurrentList(newList);
+      setKnownQuestion(knownQuestion + 1);
       getItems();
     } else {
       if (score > 0) {
@@ -60,6 +66,7 @@ const App = () => {
 
   return (
     <main className='flex flex-col w-full h-screen items-center justify-center'>
+      <TotalCounter knownQuestion={knownQuestion} listLength={list.length} />
       <div className='flex flex-col  p-10 items-center w-2/3 justfiy-center space-y-20 rounded-lg border-2 shadow-2xl border-blue-500 '>
         <InfoSection
           score={score}

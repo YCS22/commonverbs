@@ -1,4 +1,5 @@
 import { lang } from "../../enums/lang";
+import Score from "../score";
 
 type Props = {
   currentLang: string;
@@ -17,7 +18,7 @@ export const InfoSection: React.FC<Props> = ({
   score,
 }) => {
   return (
-    <div className='flex items-center justify-between text-center space-x-5 w-1/2'>
+    <div className='flex items-center justify-around text-center  w-full'>
       <label
         className='cursor-pointer border rounded-md p-3 max-w-xs'
         onClick={callback}
@@ -31,7 +32,7 @@ export const InfoSection: React.FC<Props> = ({
         {currentLang === lang.tr ? randomItem.en : randomItem.tr}
       </label>
 
-      <span className='text-md font-bold text-blue-600'>Score : {score}</span>
+      <Score value={score} />
     </div>
   );
 };
