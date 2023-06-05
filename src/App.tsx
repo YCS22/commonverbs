@@ -46,9 +46,12 @@ const App = () => {
       setKnownQuestion(knownQuestion + 1);
       getItems();
     } else {
+      console.log(callback, randomItems[1]);
+
       if (score > 0) {
         setScore((prevScore) => prevScore - 1);
       }
+
       setAnswerStatus(false);
       shuffledItems.filter(
         (item: any) => callback === item.tr || callback === item.en
@@ -65,9 +68,9 @@ const App = () => {
   }
 
   return (
-    <main className='flex flex-col w-full h-screen items-center justify-center'>
-      <TotalCounter knownQuestion={knownQuestion} listLength={list.length} />
-      <div className='flex flex-col  p-10 items-center w-2/3 justfiy-center space-y-20 rounded-lg border-2 shadow-2xl border-blue-500 '>
+    <main className='flex flex-col w-full  h-screen overflow-y-scroll  items-center justify-center bg-gradient-to-br from-purple-300 to-blue-400  '>
+      <div className='flex flex-col   p-5 items-center w-5/6  md:w-2/3 bg-gradient-to-br from-purple-500 to-blue-400 space-y-5  justfiy-center  rounded-lg shadow-2xl  '>
+        <TotalCounter knownQuestion={knownQuestion} listLength={list.length} />
         <InfoSection
           score={score}
           randomItem={randomItems[0]}
@@ -84,7 +87,7 @@ const App = () => {
         <Button
           name='Skip'
           callback={handleSkipClick}
-          color={buttonColor.purpleToPink}
+          color={buttonColor.purpleToBlue}
         />
       </div>
     </main>

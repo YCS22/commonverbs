@@ -18,21 +18,20 @@ export const InfoSection: React.FC<Props> = ({
   score,
 }) => {
   return (
-    <div className='flex items-center justify-around text-center  w-full'>
-      <label
-        className='cursor-pointer border rounded-md p-3 max-w-xs'
-        onClick={callback}
-      >
-        {currentLang === lang.tr
-          ? "Türkçeden İngilizceye"
-          : "İngilizceden Türkçeye"}
-      </label>
+    <div className='flex flex-col items-center justify-between text-center font-bold  w-full rounded-lg'>
+      <div className='flex justify-between items-center w-full'>
+        <label
+          className='cursor-pointer rounded-md p-3 max-w-xs bg-purple-400 hover:bg-purple-300'
+          onClick={callback}
+        >
+          {currentLang === lang.tr ? "TR to EN" : "EN to TR"}
+        </label>
+        <Score value={score} />{" "}
+      </div>
 
       <label className='text-lg font-bold uppercase'>
         {currentLang === lang.tr ? randomItem.en : randomItem.tr}
       </label>
-
-      <Score value={score} />
     </div>
   );
 };
