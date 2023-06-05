@@ -4,6 +4,9 @@ import { buttonColor } from "./enums/color";
 import list from "./list.json";
 import { selectRandomItems } from "./helpers/selectRandomItems";
 import { lang } from "./enums/lang";
+import { shuffleArray } from "./helpers/shuffleArray";
+import ListSection from "./components/listSection";
+import { InfoSection } from "./components/infoSection";
 
 const App = () => {
   const [currentLang, setCurrentLang] = useState(lang.tr);
@@ -16,18 +19,6 @@ const App = () => {
     getItems();
   }, []);
 
-  const shuffleArray = (array: any[]) => {
-    const shuffledArray = [...array];
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [
-        shuffledArray[j],
-        shuffledArray[i],
-      ];
-    }
-    return shuffledArray;
-  };
-
   const getItems = () => {
     const shuffledList = shuffleArray(list);
 
@@ -38,14 +29,13 @@ const App = () => {
     setShuffledItems(shuffledItems);
   };
 
-  console.log("shuffledItems", shuffledItems);
-
   const handleLangChange = () => {
     setCurrentLang((prevLang) => (prevLang === lang.tr ? lang.en : lang.tr));
   };
 
   const handleButtonClick = (callback: any) => {
-    if (callback === randomItems[0].tr || callback === randomItems[0].en) {
+    console.log("callback", callback);
+    if (callback === randomItems[0]) {
       setAnswerStatus(true);
       setScore((prevScore) => prevScore + 1);
       getItems();
@@ -69,44 +59,28 @@ const App = () => {
   }
 
   return (
-    <div className='flex flex-col w-full h-screen items-center justify-center space-y-10'>
-      <div className='flex items-center justify-between text-center space-x-5 w-1/2'>
-        <label
-          className='cursor-pointer border rounded-md p-3 max-w-xs'
-          onClick={handleLangChange}
-        >
-          {currentLang === lang.tr
-            ? "Türkçeden İngilizceye"
-            : "İngilizceden Türkçeye"}
-        </label>
+    <main className='flex flex-col w-full h-screen items-center justify-center'>
+      <div className='flex flex-col  p-10 items-center w-2/3 justfiy-center space-y-20 rounded-lg border-2 shadow-2xl border-blue-500 '>
+        <InfoSection
+          score={score}
+          randomItem={randomItems[0]}
+          callback={handleLangChange}
+          currentLang={currentLang}
+        />
 
-        <label className='text-lg font-bold uppercase'>
-          {currentLang === lang.tr ? randomItems[0].en : randomItems[0].tr}
-        </label>
+        <ListSection
+          list={shuffledItems}
+          currentLang={currentLang}
+          callback={handleButtonClick}
+        />
 
-        <span className='text-md font-bold text-blue-600'>Score : {score}</span>
-      </div>
-
-      <div className='flex space-x-10'>
-        {shuffledItems.map((item: any) => (
-          <Button
-            key={item.tr}
-            callback={handleButtonClick}
-            name={currentLang === lang.tr ? item.tr : item.en}
-            color={buttonColor.cyanToBlue}
-          />
-        ))}
-      </div>
-
-      <div className='flex flex-col'>
         <Button
           name='Skip'
           callback={handleSkipClick}
           color={buttonColor.purpleToPink}
         />
       </div>
-    </div>
+    </main>
   );
 };
-
 export default App;
