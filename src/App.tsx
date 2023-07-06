@@ -17,6 +17,7 @@ const App = () => {
   const [currentList, setCurrentList] = useState<any[]>(list);
   const [score, setScore] = useState(0);
   const [knownQuestion, setKnownQuestion] = useState(0);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     getItems();
@@ -46,8 +47,7 @@ const App = () => {
       setKnownQuestion(knownQuestion + 1);
       getItems();
     } else {
-      console.log(callback, randomItems[1]);
-
+      setError(true);
       if (score > 0) {
         setScore((prevScore) => prevScore - 1);
       }
@@ -85,7 +85,7 @@ const App = () => {
         />
 
         <Button
-          name='Skip'
+          name='Pas'
           callback={handleSkipClick}
           color={buttonColor.purpleToBlue}
         />

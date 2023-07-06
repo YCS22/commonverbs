@@ -24,7 +24,7 @@ export const InfoSection: React.FC<Props> = ({
           className='cursor-pointer rounded-md p-3 max-w-xs bg-purple-400 hover:bg-purple-300'
           onClick={callback}
         >
-          {currentLang === lang.tr ? "TR to EN" : "EN to TR"}
+          {currentLang === lang.tr ? "TR -> EN" : "EN -> TR"}
         </label>
         <Score value={score} />{" "}
       </div>
